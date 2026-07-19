@@ -8,170 +8,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --paper:#F3F4F8;
-  --card:#FFFFFF;
-  --sunken:#EBEDF3;
-  --ink:#181A24;
-  --mut:#5C6072;
-  --faint:#9AA0B2;
-  --line:#E1E4EC;
-  --line-strong:#C9CEDB;
-
-  --crew:#4E3DBE;        /* orchestration violet */
-  --crew-tint:#EEEBFB;
-  --haiku:#0E7B7C;       /* cheap model */
-  --haiku-tint:#E4F3F3;
-  --sonnet:#4E3DBE;      /* strong model */
-  --sonnet-tint:#EEEBFB;
-  --gate:#A8690F;        /* human checkpoint */
-  --gate-tint:#FBF2E1;
-  --ok:#2E7D4F;
-  --ok-tint:#E6F3EB;
-  --edit:#A8690F;
-
-  --r-sm:6px; --r-md:10px; --r-lg:16px;
-  --disp:'Bricolage Grotesque',system-ui,sans-serif;
-  --body:'Inter',system-ui,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
-button{font-family:inherit;cursor:pointer}
-.wrap{max-width:1120px;margin:0 auto;padding:40px 28px 90px}
-
-/* ── header ── */
-.eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);margin-bottom:14px}
-.eyebrow::before{content:'';width:8px;height:8px;background:var(--crew);border-radius:2px}
-h1{font-family:var(--disp);font-weight:700;font-size:clamp(34px,4.6vw,50px);letter-spacing:-.025em;line-height:1.02}
-h1 .thin{font-weight:400;color:var(--mut)}
-.sub{margin-top:12px;max-width:640px;color:var(--mut);font-size:15.5px}
-.sub b{color:var(--ink);font-weight:600}
-.crumb{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-.crumb span{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;padding:4px 10px;border:1px solid var(--line-strong);border-radius:999px;color:var(--mut);background:var(--card)}
-
-/* ── layout ── */
-.grid{display:grid;grid-template-columns:1fr 320px;gap:26px;margin-top:34px;align-items:start}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-
-/* ── ask panel ── */
-.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px}
-.panel h2{font-family:var(--disp);font-size:17px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
-.panel .hint{font-size:13px;color:var(--mut);margin-bottom:14px}
-.askrow{display:flex;gap:10px}
-.askrow input{flex:1;font:inherit;font-size:14.5px;padding:11px 14px;border:1.5px solid var(--line-strong);border-radius:var(--r-md);background:var(--paper);color:var(--ink);outline:none;transition:border-color .15s}
-.askrow input:focus{border-color:var(--crew)}
-.runbtn{background:var(--crew);color:#fff;border:none;border-radius:var(--r-md);padding:11px 20px;font-size:14px;font-weight:600;transition:opacity .15s;white-space:nowrap}
-.runbtn:hover{opacity:.9}
-.runbtn:disabled{opacity:.45;cursor:default}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.chip{font-size:12.5px;padding:7px 12px;border:1px solid var(--line-strong);border-radius:999px;background:var(--paper);color:var(--mut);transition:all .15s;text-align:left}
-.chip:hover{border-color:var(--crew);color:var(--crew);background:var(--crew-tint)}
-@media(max-width:640px){.askrow{flex-direction:column}}
-
-/* ── crew rail ── */
-.rail{margin-top:22px;position:relative}
-.stage{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:border-color .3s,box-shadow .3s}
-.stage.active{border-color:var(--crew);box-shadow:0 0 0 3px var(--crew-tint)}
-.stage.gate-card.active{border-color:var(--gate);box-shadow:0 0 0 3px var(--gate-tint)}
-.stage-head{display:grid;grid-template-columns:34px 1fr auto;gap:14px;align-items:center;padding:15px 18px}
-.stage-num{width:34px;height:34px;border-radius:var(--r-sm);display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:500;background:var(--sunken);color:var(--faint);transition:all .25s}
-.stage.done .stage-num,.stage.active .stage-num{background:var(--crew);color:#fff}
-.gate-card.done .stage-num,.gate-card.active .stage-num{background:var(--gate)}
-.stage-title{font-family:var(--disp);font-size:16.5px;font-weight:600;letter-spacing:-.01em}
-.stage-role{font-size:12.5px;color:var(--mut);margin-top:1px}
-.stage-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.badge{font-family:var(--mono);font-size:10px;letter-spacing:.05em;padding:4px 9px;border-radius:999px;font-weight:500}
-.badge.haiku{background:var(--haiku-tint);color:var(--haiku)}
-.badge.sonnet{background:var(--sonnet-tint);color:var(--sonnet)}
-.badge.human{background:var(--gate-tint);color:var(--gate)}
-.status{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.04em}
-.status.working{color:var(--crew)}
-.status.working::after{content:'';display:inline-block;width:6px;height:6px;margin-left:6px;border-radius:50%;background:var(--crew);animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
-.stage-body{display:none;border-top:1px solid var(--line);padding:16px 18px 18px;animation:reveal .35s ease-out}
-.stage.done .stage-body{display:block}
-@keyframes reveal{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
-.stat-line{font-family:var(--mono);font-size:10.5px;color:var(--faint)}
-
-/* output typography */
-.olabel{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin:12px 0 5px}
-.olabel:first-child{margin-top:0}
-.stage-body ul{list-style:none}
-.stage-body li{font-size:13.5px;color:var(--ink);padding:3px 0 3px 16px;position:relative}
-.stage-body li::before{content:'';position:absolute;left:2px;top:11px;width:5px;height:5px;border-radius:1px;background:var(--line-strong)}
-.assume li::before{background:var(--gate)}
-.assume li{color:#6b5210}
-.assume{background:var(--gate-tint);border-radius:var(--r-sm);padding:8px 10px}
-.story-txt{font-size:14.5px;font-weight:500;background:var(--crew-tint);border-left:3px solid var(--crew);padding:10px 14px;border-radius:0 var(--r-sm) var(--r-sm) 0}
-.ac{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink);background:var(--sunken);border-radius:var(--r-sm);padding:9px 12px;margin-top:6px}
-.ac b{color:var(--crew);font-weight:500}
-.ac .ac-name{font-family:var(--body);font-size:12px;font-weight:600;color:var(--crew);margin-bottom:5px}
-.ac.ace .ac-name{color:var(--gate)}
-.ticket-title{font-family:var(--disp);font-size:15px;font-weight:600;letter-spacing:-.01em}
-.selfcheck{margin-top:10px;font-size:11px;color:var(--ok);background:var(--ok-tint);border-radius:var(--r-sm);padding:7px 10px;font-family:var(--mono);line-height:1.5}
-.badge.skill{background:var(--ok-tint);color:var(--ok)}
-
-/* hand-off connector */
-.handoff{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:2px 0 2px 18px;min-height:44px;align-items:center}
-.ho-track{width:2px;height:44px;margin-left:16px;background:var(--line-strong);position:relative;border-radius:2px}
-.ho-track .packet{position:absolute;left:-5px;top:0;width:12px;height:12px;border-radius:3px;background:var(--crew);opacity:0}
-.ho-track.travel .packet{animation:drop .8s ease-in-out forwards}
-@keyframes drop{0%{top:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:32px;opacity:0}}
-.ho-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--faint);opacity:0;transition:opacity .3s}
-.handoff.shown .ho-label{opacity:1;color:var(--crew)}
-
-/* human gate */
-.gate-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-.gbtn{border-radius:var(--r-md);padding:10px 18px;font-size:13.5px;font-weight:600;border:1.5px solid transparent}
-.gbtn.approve{background:var(--ok);color:#fff}
-.gbtn.approve:hover{opacity:.9}
-.gbtn.edit{background:var(--card);border-color:var(--line-strong);color:var(--ink)}
-.gbtn.edit:hover{border-color:var(--gate);color:var(--gate)}
-.editbox{width:100%;margin-top:12px;font-family:var(--mono);font-size:12.5px;line-height:1.6;padding:12px;border:1.5px solid var(--gate);border-radius:var(--r-md);background:var(--card);color:var(--ink);min-height:180px;resize:vertical}
-.decision{margin-top:14px;padding:11px 14px;border-radius:var(--r-sm);font-size:13.5px;font-weight:500;display:none}
-.decision.accepted{display:block;background:var(--ok-tint);color:var(--ok)}
-.decision.edited{display:block;background:var(--gate-tint);color:var(--gate)}
-.sim-note{margin-top:10px;font-size:12px;color:var(--faint);font-style:italic}
-
-/* ── sidebar ── */
-.side{position:sticky;top:24px;display:flex;flex-direction:column;gap:18px}
-@media(max-width:900px){.side{position:static}}
-.side .panel{padding:18px}
-.kv{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
-.kv:last-child{border-bottom:none}
-.kv .k{color:var(--mut)}
-.kv .v{font-family:var(--mono);font-size:12.5px;font-weight:500}
-.fb-big{display:flex;gap:12px;margin:10px 0 4px}
-.fb-cell{flex:1;background:var(--sunken);border-radius:var(--r-md);padding:12px;text-align:center}
-.fb-cell .n{font-family:var(--disp);font-size:26px;font-weight:700;line-height:1}
-.fb-cell .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-top:5px}
-.fb-cell.acc .n{color:var(--ok)}
-.fb-cell.edt .n{color:var(--gate)}
-.fb-note{font-size:12px;color:var(--mut);margin-top:8px}
-.runlog{list-style:none;margin-top:6px}
-.runlog li{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px}
-.runlog li:last-child{border-bottom:none}
-.runlog .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;padding:3px 8px;border-radius:999px;flex-shrink:0}
-.tag.acc{background:var(--ok-tint);color:var(--ok)}
-.tag.edt{background:var(--gate-tint);color:var(--gate)}
-.runlog .q{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.empty{font-size:12.5px;color:var(--faint);font-style:italic;padding:6px 0}
-
-.foot{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);font-size:12.5px;color:var(--faint);max-width:700px}
-.foot b{color:var(--mut)}
-
-@media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important}
-}
-:focus-visible{outline:2px solid var(--crew);outline-offset:2px}
+:root{--paper:#F3F4F8;--card:#FFFFFF;--sunken:#EBEDF3;--ink:#181A24;--mut:#5C6072;--faint:#9AA0B2;--line:#E1E4EC;--line-strong:#C9CEDB;--crew:#4E3DBE;--crew-tint:#EEEBFB;--haiku:#0E7B7C;--haiku-tint:#E4F3F3;--sonnet:#4E3DBE;--sonnet-tint:#EEEBFB;--gate:#A8690F;--gate-tint:#FBF2E1;--ok:#2E7D4F;--ok-tint:#E6F3EB;--edit:#A8690F;--r-sm:6px;--r-md:10px;--r-lg:16px;--disp:'Bricolage Grotesque',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box;margin:0;padding:0}html,body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}button{font-family:inherit;cursor:pointer}.wrap{max-width:1120px;margin:0 auto;padding:40px 28px 90px}.eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);margin-bottom:14px}.eyebrow::before{content:'';width:8px;height:8px;background:var(--crew);border-radius:2px}h1{font-family:var(--disp);font-weight:700;font-size:clamp(34px,4.6vw,50px);letter-spacing:-.025em;line-height:1.02}h1 .thin{font-weight:400;color:var(--mut)}.sub{margin-top:12px;max-width:640px;color:var(--mut);font-size:15.5px}.sub b{color:var(--ink);font-weight:600}.crumb{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.crumb span{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;padding:4px 10px;border:1px solid var(--line-strong);border-radius:999px;color:var(--mut);background:var(--card)}.grid{display:grid;grid-template-columns:1fr 320px;gap:26px;margin-top:34px;align-items:start}@media(max-width:900px){.grid{grid-template-columns:1fr}}.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px}.panel h2{font-family:var(--disp);font-size:17px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}.panel .hint{font-size:13px;color:var(--mut);margin-bottom:14px}.askrow{display:flex;gap:10px}.askrow input{flex:1;font:inherit;font-size:14.5px;padding:11px 14px;border:1.5px solid var(--line-strong);border-radius:var(--r-md);background:var(--paper);color:var(--ink);outline:none;transition:border-color .15s}.askrow input:focus{border-color:var(--crew)}.runbtn{background:var(--crew);color:#fff;border:none;border-radius:var(--r-md);padding:11px 20px;font-size:14px;font-weight:600;transition:opacity .15s;white-space:nowrap}.runbtn:hover{opacity:.9}.runbtn:disabled{opacity:.45;cursor:default}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.chip{font-size:12.5px;padding:7px 12px;border:1px solid var(--line-strong);border-radius:999px;background:var(--paper);color:var(--mut);transition:all .15s;text-align:left}.chip:hover{border-color:var(--crew);color:var(--crew);background:var(--crew-tint)}@media(max-width:640px){.askrow{flex-direction:column}}.rail{margin-top:22px;position:relative}.stage{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:border-color .3s,box-shadow .3s}.stage.active{border-color:var(--crew);box-shadow:0 0 0 3px var(--crew-tint)}.stage.gate-card.active{border-color:var(--gate);box-shadow:0 0 0 3px var(--gate-tint)}.stage-head{display:grid;grid-template-columns:34px 1fr auto;gap:14px;align-items:center;padding:15px 18px}.stage-num{width:34px;height:34px;border-radius:var(--r-sm);display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:500;background:var(--sunken);color:var(--faint);transition:all .25s}.stage.done .stage-num,.stage.active .stage-num{background:var(--crew);color:#fff}.gate-card.done .stage-num,.gate-card.active .stage-num{background:var(--gate)}.stage-title{font-family:var(--disp);font-size:16.5px;font-weight:600;letter-spacing:-.01em}.stage-role{font-size:12.5px;color:var(--mut);margin-top:1px}.stage-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.badge{font-family:var(--mono);font-size:10px;letter-spacing:.05em;padding:4px 9px;border-radius:999px;font-weight:500}.badge.haiku{background:var(--haiku-tint);color:var(--haiku)}.badge.sonnet{background:var(--sonnet-tint);color:var(--sonnet)}.badge.human{background:var(--gate-tint);color:var(--gate)}.badge.skill{background:var(--ok-tint);color:var(--ok)}.status{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.04em}.status.working{color:var(--crew)}.status.working::after{content:'';display:inline-block;width:6px;height:6px;margin-left:6px;border-radius:50%;background:var(--crew);animation:pulse 1s infinite}@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}.stage-body{display:none;border-top:1px solid var(--line);padding:16px 18px 18px;animation:reveal .35s ease-out}.stage.done .stage-body{display:block}@keyframes reveal{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}.stat-line{font-family:var(--mono);font-size:10.5px;color:var(--faint)}.olabel{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin:12px 0 5px}.olabel:first-child{margin-top:0}.stage-body ul{list-style:none}.stage-body li{font-size:13.5px;color:var(--ink);padding:3px 0 3px 16px;position:relative}.stage-body li::before{content:'';position:absolute;left:2px;top:11px;width:5px;height:5px;border-radius:1px;background:var(--line-strong)}.assume li::before{background:var(--gate)}.assume li{color:#6b5210}.assume{background:var(--gate-tint);border-radius:var(--r-sm);padding:8px 10px}.story-txt{font-size:14.5px;font-weight:500;background:var(--crew-tint);border-left:3px solid var(--crew);padding:10px 14px;border-radius:0 var(--r-sm) var(--r-sm) 0}.ac{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink);background:var(--sunken);border-radius:var(--r-sm);padding:9px 12px;margin-top:6px}.ac b{color:var(--crew);font-weight:500}.ac .ac-name{font-family:var(--body);font-size:12px;font-weight:600;color:var(--crew);margin-bottom:5px}.ac.ace .ac-name{color:var(--gate)}.ticket-title{font-family:var(--disp);font-size:15px;font-weight:600;letter-spacing:-.01em}.selfcheck{margin-top:10px;font-size:11px;color:var(--ok);background:var(--ok-tint);border-radius:var(--r-sm);padding:7px 10px;font-family:var(--mono);line-height:1.5}.handoff{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:2px 0 2px 18px;min-height:44px;align-items:center}.ho-track{width:2px;height:44px;margin-left:16px;background:var(--line-strong);position:relative;border-radius:2px}.ho-track .packet{position:absolute;left:-5px;top:0;width:12px;height:12px;border-radius:3px;background:var(--crew);opacity:0}.ho-track.travel .packet{animation:drop .8s ease-in-out forwards}@keyframes drop{0%{top:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:32px;opacity:0}}.ho-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--faint);opacity:0;transition:opacity .3s}.handoff.shown .ho-label{opacity:1;color:var(--crew)}.gate-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.gbtn{border-radius:var(--r-md);padding:10px 18px;font-size:13.5px;font-weight:600;border:1.5px solid transparent}.gbtn.approve{background:var(--ok);color:#fff}.gbtn.approve:hover{opacity:.9}.gbtn.edit{background:var(--card);border-color:var(--line-strong);color:var(--ink)}.gbtn.edit:hover{border-color:var(--gate);color:var(--gate)}.editbox{width:100%;margin-top:12px;font-family:var(--mono);font-size:12.5px;line-height:1.6;padding:12px;border:1.5px solid var(--gate);border-radius:var(--r-md);background:var(--card);color:var(--ink);min-height:180px;resize:vertical}.decision{margin-top:14px;padding:11px 14px;border-radius:var(--r-sm);font-size:13.5px;font-weight:500;display:none}.decision.accepted{display:block;background:var(--ok-tint);color:var(--ok)}.decision.edited{display:block;background:var(--gate-tint);color:var(--gate)}.sim-note{margin-top:10px;font-size:12px;color:var(--faint);font-style:italic}.side{position:sticky;top:24px;display:flex;flex-direction:column;gap:18px}@media(max-width:900px){.side{position:static}}.side .panel{padding:18px}.kv{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}.kv:last-child{border-bottom:none}.kv .k{color:var(--mut)}.kv .v{font-family:var(--mono);font-size:12.5px;font-weight:500}.fb-big{display:flex;gap:12px;margin:10px 0 4px}.fb-cell{flex:1;background:var(--sunken);border-radius:var(--r-md);padding:12px;text-align:center}.fb-cell .n{font-family:var(--disp);font-size:26px;font-weight:700;line-height:1}.fb-cell .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-top:5px}.fb-cell.acc .n{color:var(--ok)}.fb-cell.edt .n{color:var(--gate)}.fb-note{font-size:12px;color:var(--mut);margin-top:8px}.runlog{list-style:none;margin-top:6px}.runlog li{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px}.runlog li:last-child{border-bottom:none}.runlog .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;padding:3px 8px;border-radius:999px;flex-shrink:0}.tag.acc{background:var(--ok-tint);color:var(--ok)}.tag.edt{background:var(--gate-tint);color:var(--gate)}.runlog .q{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.empty{font-size:12.5px;color:var(--faint);font-style:italic;padding:6px 0}.foot{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);font-size:12.5px;color:var(--faint);max-width:700px}.foot b{color:var(--mut)}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}:focus-visible{outline:2px solid var(--crew);outline-offset:2px}
 </style>
 </head>
 <body>
 <div class="wrap">
-
   <header>
-    <div class="eyebrow">StreamMind · Flagship #4 · demo front-end prototype</div>
+    <div class="eyebrow">StreamMind · Flagship #4 · live demo</div>
     <h1>PM Copilot <span class="thin">— the crew, visible</span></h1>
     <p class="sub">A rough ask flows through <b>Researcher → Analyst → Writer</b>, each hand-off inspectable, then stops at a <b>human gate</b>. Approve or edit — the decision is the feedback signal that feeds the eval set.</p>
     <div class="crumb">
@@ -181,22 +25,19 @@ h1 .thin{font-weight:400;color:var(--mut)}
       <span>Writer output contract · create-user-story skill</span>
     </div>
   </header>
-
   <div class="grid">
     <main>
       <div class="panel">
         <h2>Rough ask</h2>
-        <p class="hint">One line is enough — the crew does the gathering and scoping. Try a sample:</p>
+        <p class="hint">Type any feature ask — the live crew on Railway runs it (~30-50s). Sample asks use canned data instantly.</p>
         <div class="askrow">
           <input id="ask" type="text" placeholder="e.g. Users keep missing when their saved jobs get reposted…" aria-label="Feature ask">
           <button class="runbtn" id="run" onclick="runCrew()">Run crew</button>
         </div>
         <div class="chips" id="chips"></div>
       </div>
-
       <div class="rail" id="rail"></div>
     </main>
-
     <aside class="side">
       <div class="panel">
         <h2>Run cost & routing</h2>
@@ -204,276 +45,37 @@ h1 .thin{font-weight:400;color:var(--mut)}
         <div class="kv"><span class="k">Analyst · Haiku 4.5</span><span class="v" id="c2">—</span></div>
         <div class="kv"><span class="k">Writer · Sonnet 4.6</span><span class="v" id="c3">—</span></div>
         <div class="kv"><span class="k"><b>Total / run</b></span><span class="v" id="ct">—</span></div>
-        <p class="fb-note">Cheap model on retrieval &amp; scoping; the strong model only where wording quality matters. Routing is the cost lever.</p>
+        <p class="fb-note">Cheap model on retrieval & scoping; the strong model only where wording quality matters.</p>
       </div>
-
       <div class="panel">
         <h2>Feedback signal</h2>
         <div class="fb-big">
           <div class="fb-cell acc"><div class="n" id="nAcc">0</div><div class="l">accepted</div></div>
           <div class="fb-cell edt"><div class="n" id="nEdt">0</div><div class="l">edited</div></div>
         </div>
-        <p class="fb-note">Accepted-vs-edited per run — logged as the eval-set signal for the LLM-as-judge rubric.</p>
+        <p class="fb-note">Accepted-vs-edited per run — the eval-set signal for the LLM-as-judge rubric.</p>
         <div class="olabel" style="margin-top:14px">Session log</div>
         <ul class="runlog" id="runlog"><li class="empty">No runs yet this session.</li></ul>
       </div>
     </aside>
   </div>
-
-  <p class="foot"><b>Prototype note:</b> crew outputs are simulated to demonstrate the intended UX — visible hand-offs, model routing, and the human checkpoint. The real backend is the CrewAI sequential crew per ARCHITECTURE.md; custom asks run a generic simulated pipeline with all context flagged as assumption.</p>
+  <p class="foot"><b>Live mode:</b> custom asks call the real CrewAI crew on Railway (~30-50s). Sample asks use canned data. Falls back gracefully if the API is unreachable.</p>
 </div>
-
 <script>
-/* ── canned crew runs ─────────────────────────────── */
-const RUNS = [
-{
- ask:"Users keep missing when their saved jobs get reposted. We should notify them somehow.",
- researcher:{ms:1240,cost:0.003,brief:[
-  "Saved jobs exist — users save postings from Browse; stored in saved_jobs (posting_id, saved_at).",
-  "Repost detection already exists — the ghost-score features view computes repost frequency over 90 days; a repost event is detectable at daily ingest.",
-  "No notification infrastructure is wired yet; Resend is used elsewhere in the portfolio (PM Agent #4 digest).",
-  "Constraint: ingest is a daily batch, so detection latency is up to 24h.",
-  "Related backlog: an 'email digest' idea is parked in the icebox — adjacent, not this ask."]},
- analyst:{ms:1420,cost:0.004,
-  inScope:["Email notification when a saved job is reposted","Per-user daily notification cap","Each notification links back to the posting with its current ghost-score"],
-  outScope:["Push / in-app notifications","Real-time detection (blocked by batch ingest)","Notification-preferences UI beyond a basic opt-out"],
-  edges:["Multiple saved jobs reposted the same day — batch into one email?","User unsaved the job before the daily check runs","Posting deleted between detection and send"],
-  deps:["Repost signal from sql/features.sql","Email provider (Resend)"],
-  assumptions:["A1 — Email is the right channel; no channel-preference data exists.","A2 — Daily cadence is acceptable given batch ingest.","A3 — Cap value (N emails/day) is a PM call, not derivable from data."]},
- writer:{ms:2780,cost:0.011,
-  title:"Saved Jobs – Repost Notification Email",
-  story:"As a job seeker, I want to receive an email when a job I saved is reposted, so that I can decide whether it's still worth applying to.",
-  acs:[
-   {id:"AC1",name:"Repost Notification Sent",given:"a job seeker has a saved job that is detected as reposted",when:"the daily check runs",thens:["The job seeker will receive one email per repost event.","The email will link back to the posting with its current ghost-score."]},
-   {id:"AC2",name:"Daily Cap Reached",given:"a job seeker has reached the daily notification cap",when:"further repost events are detected that day",thens:["The additional events will be held and included in the next day's email."]},
-   {id:"ACE1",name:"Job Unsaved Before Check",given:"a job seeker unsaved the job before the daily check runs",when:"repost detection fires for that posting",thens:["No notification will be sent for that job."]},
-   {id:"ACE2",name:"Posting Deleted",given:"a saved job's posting is deleted after a repost is detected",when:"the notification email is generated",thens:["The item will be omitted from the email.","A skip event will be logged with user ID, posting ID, and timestamp (UTC)."]}],
-  carried:"Assumptions A1–A3 carried forward for PM confirmation — flagged, not invented."}
-},
-{
- ask:"Let people snooze a saved job instead of deleting it.",
- researcher:{ms:1180,cost:0.003,brief:[
-  "Saved jobs are binary today — save/unsave only; no status field on saved_jobs.",
-  "History page lists saved items sorted by saved_at.",
-  "Browse can resurface previously-unsaved postings, which is the behavior users are working around.",
-  "Constraint: any status change needs a saved_jobs schema migration."]},
- analyst:{ms:1360,cost:0.004,
-  inScope:["Snooze action with preset durations","Snoozed items hidden from the default saved list","Auto-return to the list when the snooze expires"],
-  outScope:["Custom snooze durations","Snoozing unsaved postings","Wake-up reminder notifications"],
-  edges:["Job closes or goes ghost while snoozed","Repost occurs during snooze (interacts with the notification story)","Snooze followed by manual unsave"],
-  deps:["saved_jobs schema change: status + snooze_until"],
-  assumptions:["A1 — Presets of 1w / 2w / 1m are sufficient.","A2 — Snoozed jobs are excluded from repost notifications; needs a product call."]},
- writer:{ms:2650,cost:0.010,
-  title:"Saved Jobs – Snooze a Saved Job",
-  story:"As a job seeker, I want to snooze a saved job for a set period, so that I can keep my saved list focused without losing track of postings I might return to.",
-  acs:[
-   {id:"AC1",name:"Snooze Applied",given:"a job seeker is viewing a saved job",when:"they select \"Snooze\" and a preset duration",thens:["The job will be hidden from the default saved list until the snooze expires.","The job will appear under the \"Snoozed\" filter with its wake date."]},
-   {id:"AC2",name:"Snooze Expires",given:"a snoozed job's duration elapses",when:"the daily check runs",thens:["The job will return to the saved list marked \"Returned from snooze\"."]},
-   {id:"ACE1",name:"Job Closes While Snoozed",given:"a job closes while it is snoozed",when:"the snooze expires and the job would return",thens:["The job will return with a \"Closed\" indicator rather than silently disappearing."]},
-   {id:"ACE2",name:"Snooze Then Unsave",given:"a job seeker has a snoozed job",when:"they unsave it",thens:["The snooze will be cancelled and the job removed from all saved views."]}],
-  carried:"Assumptions A1–A2 carried forward for PM confirmation."}
-},
-{
- ask:"We should show why a job got flagged as ghost.",
- researcher:{ms:1210,cost:0.003,brief:[
-  "The classifier returns GHOST/REAL plus a one-sentence rationale.",
-  "Three deterministic signals exist in the features view: repost frequency, posting age, cross-board spread.",
-  "The Analyze page currently shows the score only.",
-  "GUARDRAILS.md already calls for calm UI with evidence alongside the score — this ask closes that gap."]},
- analyst:{ms:1330,cost:0.004,
-  inScope:["Evidence panel on the Analyze page: three signal values + the model's rationale"],
-  outScope:["Per-signal weight explanations","Appeal / feedback flow","Surfacing evidence on the Browse page"],
-  edges:["Signal unavailable (new posting, no history)","Rationale longer than the panel allows","REAL verdicts — show evidence too?"],
-  deps:["API route must return feature values alongside the verdict"],
-  assumptions:["A1 — Evidence shows for both verdicts, not just GHOST.","A2 — Signal values are shown raw, not normalized."]},
- writer:{ms:2590,cost:0.010,
-  title:"Analyze – Ghost-Flag Evidence Panel",
-  story:"As a job seeker, I want to see the evidence behind a ghost flag, so that I can judge for myself whether to trust the score.",
-  acs:[
-   {id:"AC1",name:"Evidence Displayed",given:"a job seeker has analyzed a posting",when:"the result is displayed",thens:["The three deterministic signals will be shown with their values alongside the verdict.","The model's rationale will be displayed in full without truncation."]},
-   {id:"ACE1",name:"Missing Signal",given:"a posting has no history for one of the signals",when:"the evidence panel renders",thens:["The signal will be shown as \"No history\" rather than omitted."]}],
-  carried:"Assumptions A1–A2 carried forward for PM confirmation."}
-}
-];
-
-const GENERIC = ask => ({
- ask,
- researcher:{ms:1300,cost:0.003,brief:[
-  "No product context matched this ask in the simulated corpus.",
-  "In the live crew, the Researcher would query the Notion roadmap and related backlog here.",
-  "Everything downstream is therefore flagged as assumption — the crew grounds; it does not invent."]},
- analyst:{ms:1400,cost:0.004,
-  inScope:["The literal capability described in the ask, narrowly interpreted"],
-  outScope:["Any adjacent capability not named in the ask"],
-  edges:["Unknown — no context retrieved to derive edge cases from"],
-  deps:["Unknown — to be confirmed against the real roadmap"],
-  assumptions:["A1 — The ask's intent as written is the intended scope.","A2 — No existing feature already covers this.","A3 — All dependencies unconfirmed; every one requires PM validation."]},
- writer:{ms:2700,cost:0.010,
-  title:"[Feature Name] – [Story Name]  (PLACEHOLDER)",
-  story:"As a [role to be confirmed], I want "+ask.replace(/\.$/,'').toLowerCase()+", so that [outcome to be confirmed by PM].",
-  acs:[
-   {id:"AC1",name:"Core Behavior (Assumed)",given:"a [role to be confirmed] meets the triggering condition [assumed]",when:"they perform the core action",thens:["The described capability will behave as specified — pending confirmation of assumptions A1–A3."]},
-   {id:"ACE1",name:"Review Gate",given:"this story was generated without grounded context",when:"it reaches PM review",thens:["Assumptions A1–A3 will be resolved before the story is committed."]}],
-  carried:"Ungrounded run — every assumption requires PM confirmation before this story is usable."}
-});
-
-/* ── state ── */
-const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-let running=false, accepted=0, edited=0;
-
-const chips=document.getElementById('chips');
-RUNS.forEach(r=>{
-  const b=document.createElement('button');
-  b.className='chip'; b.textContent='“'+r.ask+'”';
-  b.onclick=()=>{document.getElementById('ask').value=r.ask;};
-  chips.appendChild(b);
-});
-
+const API_BASE='https://streammind-pm5-copilot-production.up.railway.app';
+const RUNS=[{ask:"Users keep missing when their saved jobs get reposted. We should notify them somehow.",researcher:{ms:1240,cost:0.003,brief:["Saved jobs exist — stored in saved_jobs (posting_id, saved_at).","Repost detection exists via features view; daily batch, up to 24h latency.","No notification infrastructure wired; Resend assumed.","Related backlog: email digest in icebox — adjacent, not this ask."]},analyst:{ms:1420,cost:0.004,inScope:["Email notification when a saved job is reposted","Per-user daily notification cap","Each notification links back to the posting with its current ghost-score"],outScope:["Push / in-app notifications","Real-time detection","Notification-preferences UI"],edges:["Multiple saved jobs reposted same day","User unsaved before check","Posting deleted between detection and send"],deps:["Repost signal from sql/features.sql","Email provider (Resend)"],assumptions:["A1 — Email is the right channel.","A2 — Daily cadence acceptable.","A3 — Cap value is a PM call."]},writer:{ms:2780,cost:0.011,title:"Saved Jobs – Repost Notification Email",story:"As a job seeker, I want to receive an email when a job I saved is reposted, so that I can decide whether it's still worth applying to.",acs:[{id:"AC1",name:"Repost Notification Sent",given:"a job seeker has a saved job that is detected as reposted",when:"the daily check runs",thens:["The job seeker will receive one email per repost event.","The email will link back to the posting with its current ghost-score."]},{id:"AC2",name:"Daily Cap Reached",given:"a job seeker has reached the daily notification cap",when:"further repost events are detected that day",thens:["The additional events will be held and included in the next day's email."]},{id:"ACE1",name:"Job Unsaved Before Check",given:"a job seeker unsaved the job before the daily check runs",when:"repost detection fires for that posting",thens:["No notification will be sent for that job."]},{id:"ACE2",name:"Posting Deleted",given:"a saved job's posting is deleted after a repost is detected",when:"the notification email is generated",thens:["The item will be omitted from the email.","A skip event will be logged."]}],carried:"Assumptions A1–A3 carried forward."}}];
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let running=false,accepted=0,edited=0;
+const chips=document.getElementById('chips');RUNS.forEach(r=>{const b=document.createElement('button');b.className='chip';b.textContent='"'+r.ask+'"';b.onclick=()=>{document.getElementById('ask').value=r.ask;};chips.appendChild(b);});
 const fmt$=v=>'$'+v.toFixed(3);
-const fmtMs=v=>(v/1000).toFixed(1)+'s';
-
-function stageShell(num,title,role,badgeCls,badgeTxt,id,gate,extra){
-  return `<div class="stage${gate?' gate-card':''}" id="${id}">
-    <div class="stage-head">
-      <div class="stage-num">${num}</div>
-      <div><div class="stage-title">${title}</div><div class="stage-role">${role}</div></div>
-      <div class="stage-meta">${extra||''}<span class="badge ${badgeCls}">${badgeTxt}</span><span class="status" id="${id}-st">queued</span></div>
-    </div>
-    <div class="stage-body" id="${id}-body"></div>
-  </div>`;
-}
-function handoff(id,label){
-  return `<div class="handoff" id="${id}">
-    <div class="ho-track"><div class="packet"></div></div>
-    <div class="ho-label">${label}</div>
-  </div>`;
-}
-
-function list(items,cls){return `<ul class="${cls||''}">`+items.map(i=>`<li>${i}</li>`).join('')+`</ul>`;}
-
-function runCrew(){
-  if(running) return;
-  const askEl=document.getElementById('ask');
-  const ask=askEl.value.trim();
-  if(!ask){askEl.focus();return;}
-  running=true;
-  document.getElementById('run').disabled=true;
-  ['c1','c2','c3','ct'].forEach(i=>document.getElementById(i).textContent='—');
-
-  const data = RUNS.find(r=>r.ask===ask) || GENERIC(ask);
-
-  const rail=document.getElementById('rail');
-  rail.innerHTML =
-    stageShell('01','Researcher','Gathers product context — what exists, what constrains','haiku','HAIKU 4.5','s1') +
-    handoff('h1','context brief → Analyst') +
-    stageShell('02','Analyst','Scopes the work — in / out, edge cases, assumptions flagged','haiku','HAIKU 4.5','s2') +
-    handoff('h2','scoped spec → Writer') +
-    stageShell('03','Writer','Drafts the ticket via your create-user-story skill — AC/ACE format, self-check enforced','sonnet','SONNET 4.6','s3',false,'<span class="badge skill">SKILL · create-user-story</span>') +
-    handoff('h3','draft story → human gate') +
-    stageShell('✓','Human review','The PM decides — the crew proposes, it never commits','human','YOU','sg',true);
-
-  const t = reduced ? ()=>0 : ms=>ms;
-
-  const seq=[
-    {id:'s1',wait:t(data.researcher.ms),render:()=>{
-      document.getElementById('s1-body').innerHTML =
-        `<div class="olabel">Context brief</div>`+list(data.researcher.brief)+
-        `<div class="olabel" style="margin-top:12px"><span class="stat-line">${fmtMs(data.researcher.ms)} · ${fmt$(data.researcher.cost)}</span></div>`;
-      document.getElementById('c1').textContent=fmt$(data.researcher.cost);
-    },ho:'h1'},
-    {id:'s2',wait:t(data.analyst.ms),render:()=>{
-      const a=data.analyst;
-      document.getElementById('s2-body').innerHTML =
-        `<div class="olabel">In scope</div>`+list(a.inScope)+
-        `<div class="olabel">Out of scope</div>`+list(a.outScope)+
-        `<div class="olabel">Edge cases</div>`+list(a.edges)+
-        `<div class="olabel">Dependencies</div>`+list(a.deps)+
-        `<div class="olabel">Assumptions — flagged, not invented</div>`+list(a.assumptions,'assume')+
-        `<div class="olabel" style="margin-top:12px"><span class="stat-line">${fmtMs(a.ms)} · ${fmt$(a.cost)}</span></div>`;
-      document.getElementById('c2').textContent=fmt$(a.cost);
-    },ho:'h2'},
-    {id:'s3',wait:t(data.writer.ms),render:()=>{
-      const w=data.writer;
-      document.getElementById('s3-body').innerHTML =
-        `<div class="olabel">Ticket summary</div><div class="ticket-title">${w.title}</div>`+
-        `<div class="olabel">User story statement</div><div class="story-txt">${w.story}</div>`+
-        `<div class="olabel">Acceptance criteria — AC happy path · ACE edge case</div>`+
-        w.acs.map(a=>{const ace=a.id.indexOf('ACE')===0;
-          return `<div class="ac${ace?' ace':''}"><div class="ac-name">${a.id}- ${a.name}</div><b>GIVEN</b> ${a.given}<br><b>WHEN</b> ${a.when}<br><b>THEN</b> the following should be true:<br>${a.thens.map(x=>'&bull; '+x).join('<br>')}</div>`;
-        }).join('')+
-        `<div class="selfcheck">✓ create-user-story self-check passed — role named in every GIVEN · single-action WHEN · future-tense THEN bullets · AC/ACE prefixes sequential · happy-path count ≤ 15</div>`+
-        `<div class="olabel" style="margin-top:12px"><span class="stat-line">${fmtMs(w.ms)} · ${fmt$(w.cost)} · ${w.carried}</span></div>`;
-      document.getElementById('c3').textContent=fmt$(w.cost);
-      const total=data.researcher.cost+data.analyst.cost+data.writer.cost;
-      document.getElementById('ct').textContent=fmt$(total)+' · '+fmtMs(data.researcher.ms+data.analyst.ms+data.writer.ms);
-    },ho:'h3'},
-    {id:'sg',wait:t(300),render:()=>{
-      const w=data.writer;
-      const plain = w.title+"\n\n"+w.story+"\n\n"+w.acs.map(a=>a.id+"- "+a.name+"\nGIVEN "+a.given+"\nWHEN "+a.when+"\nTHEN the following should be true:\n"+a.thens.map(x=>"• "+x).join("\n")).join("\n\n");
-      document.getElementById('sg-body').innerHTML =
-        `<p style="font-size:13.5px;color:var(--mut)">Nothing is committed without you. Approving or editing here is the <b style="color:var(--ink)">accepted-vs-edited signal</b> logged for the eval set.</p>
-         <div class="gate-actions">
-           <button class="gbtn approve" onclick="decide('accepted')">Approve as-is</button>
-           <button class="gbtn edit" onclick="openEdit()">Edit before commit</button>
-         </div>
-         <textarea class="editbox" id="editbox" style="display:none">${plain}</textarea>
-         <div class="gate-actions" id="saveRow" style="display:none">
-           <button class="gbtn approve" onclick="decide('edited')">Save edits &amp; commit</button>
-         </div>
-         <div class="decision" id="decision"></div>
-         <p class="sim-note">Prototype: the decision is logged locally; the live crew writes it to the eval feedback store.</p>`;
-    }}
-  ];
-
-  let cursor=0;
-  function step(){
-    const s=seq[cursor];
-    const el=document.getElementById(s.id);
-    el.classList.add('active');
-    document.getElementById(s.id+'-st').textContent=s.id==='sg'?'awaiting you':'working';
-    document.getElementById(s.id+'-st').className='status working';
-    setTimeout(()=>{
-      el.classList.remove('active'); el.classList.add('done');
-      const st=document.getElementById(s.id+'-st');
-      st.className='status'; st.textContent=s.id==='sg'?'awaiting you':'done';
-      s.render();
-      if(s.id==='sg'){el.classList.add('active');window._pendingAsk=ask;return;}
-      const ho=document.getElementById(s.ho);
-      ho.classList.add('shown');
-      ho.querySelector('.ho-track').classList.add('travel');
-      cursor++;
-      setTimeout(step, reduced?0:850);
-    }, s.wait);
-  }
-  step();
-}
-
-function openEdit(){
-  document.getElementById('editbox').style.display='block';
-  document.getElementById('saveRow').style.display='flex';
-  document.getElementById('editbox').focus();
-}
-
-function decide(kind){
-  const d=document.getElementById('decision');
-  const gate=document.getElementById('sg');
-  gate.classList.remove('active');
-  document.getElementById('sg-st').textContent='done';
-  document.getElementById('editbox').style.display='none';
-  document.getElementById('saveRow').style.display='none';
-  document.querySelectorAll('#sg .gate-actions .gbtn').forEach(b=>b.disabled=true);
-  if(kind==='accepted'){accepted++;d.className='decision accepted';d.textContent='✓ Story approved as-is — logged as ACCEPTED.';}
-  else{edited++;d.className='decision edited';d.textContent='✎ Story committed with edits — logged as EDITED (feeds the rubric eval set).';}
-  document.getElementById('nAcc').textContent=accepted;
-  document.getElementById('nEdt').textContent=edited;
-  const log=document.getElementById('runlog');
-  const empty=log.querySelector('.empty'); if(empty) empty.remove();
-  const li=document.createElement('li');
-  li.innerHTML=`<span class="tag ${kind==='accepted'?'acc':'edt'}">${kind.toUpperCase()}</span><span class="q">${window._pendingAsk||''}</span>`;
-  log.prepend(li);
-  running=false;
-  document.getElementById('run').disabled=false;
-}
+const fmtMs=v=>typeof v==='number'?(v<10?v.toFixed(1)+'s':(v/1000).toFixed(1)+'s'):v;
+function stageShell(n,t,r,bc,bt,id,g,x){return`<div class="stage${g?' gate-card':''}" id="${id}"><div class="stage-head"><div class="stage-num">${n}</div><div><div class="stage-title">${t}</div><div class="stage-role">${r}</div></div><div class="stage-meta">${x||''}<span class="badge ${bc}">${bt}</span><span class="status" id="${id}-st">queued</span></div></div><div class="stage-body" id="${id}-body"></div></div>`;}
+function handoff(id,l){return`<div class="handoff" id="${id}"><div class="ho-track"><div class="packet"></div></div><div class="ho-label">${l}</div></div>`;}
+function list(items,cls){return`<ul class="${cls||''}">`+items.map(i=>`<li>${i}</li>`).join('')+`</ul>`;}
+function parseApi(d){const brief=d.researcher_brief.split('\n').filter(l=>l.trim().length>3);const spec=d.analyst_spec;const ps=label=>{const rx=new RegExp(label+'[:\\s]*\\n([\\s\\S]*?)(?=\\n(?:IN SCOPE|OUT OF SCOPE|EDGE CASES|DEPENDENCIES|ASSUMPTIONS|$))','i');const m=spec.match(rx);if(!m)return[];return m[1].split('\n').filter(l=>/^[\s\-•*]/.test(l)).map(l=>l.replace(/^[\s\-•*]+/,'').trim()).filter(Boolean);};const s=d.story,dur=d.duration_s;return{ask:d.ask,live:true,totalDuration:dur,warnings:(d.validation||{}).warnings||[],researcher:{ms:Math.round(dur*350),cost:0.003,brief},analyst:{ms:Math.round(dur*400),cost:0.004,inScope:ps('IN SCOPE'),outScope:ps('OUT OF SCOPE'),edges:ps('EDGE CASES'),deps:ps('DEPENDENCIES'),assumptions:ps('ASSUMPTIONS')},writer:{ms:Math.round(dur*250),cost:0.011,title:s.title||'Untitled',story:s.story||'',acs:s.acs||[],carried:(s.assumptions_carried||[]).join('; ')||'None'}};}
+async function runCrew(){if(running)return;const askEl=document.getElementById('ask'),ask=askEl.value.trim();if(!ask){askEl.focus();return;}running=true;document.getElementById('run').disabled=true;document.getElementById('run').textContent='Running...';['c1','c2','c3','ct'].forEach(i=>document.getElementById(i).textContent='—');let data=null,isLive=false;const canned=RUNS.find(r=>r.ask===ask);if(canned){data=canned;}else if(API_BASE){try{const r=await fetch(API_BASE+'/api/crew',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ask})});if(r.ok){data=parseApi(await r.json());isLive=true;}else{console.warn('API error:',await r.text());}}catch(e){console.warn('API unreachable:',e.message);}}if(!data){data={ask,researcher:{ms:0,cost:0,brief:["API unavailable — try a sample ask or reload in a minute."]},analyst:{ms:0,cost:0,inScope:["—"],outScope:["—"],edges:["—"],deps:["—"],assumptions:["A1 — API offline."]},writer:{ms:0,cost:0,title:"[Offline]",story:"API unreachable. Try a sample ask.",acs:[{id:"AC1",name:"Offline",given:"API is down",when:"it recovers",thens:["Live results will appear."]}],carried:"—"}};}const rail=document.getElementById('rail');const lb=isLive?'<span class="badge skill" style="margin-right:8px">LIVE</span>':'';rail.innerHTML=stageShell('01','Researcher','Gathers product context — what exists, what constrains','haiku','HAIKU 4.5','s1')+handoff('h1','context brief → Analyst')+stageShell('02','Analyst','Scopes the work — in / out, edge cases, assumptions flagged','haiku','HAIKU 4.5','s2')+handoff('h2','scoped spec → Writer')+stageShell('03','Writer','Drafts the ticket via create-user-story skill','sonnet','SONNET 4.6','s3',false,lb+'<span class="badge skill">SKILL</span>')+handoff('h3','draft story → human gate')+stageShell('✓','Human review','The PM decides — the crew proposes, it never commits','human','YOU','sg',true);document.getElementById('run').textContent='Run crew';const t=(isLive||reduced)?()=>0:ms=>ms;const seq=[{id:'s1',wait:t(data.researcher.ms),render:()=>{document.getElementById('s1-body').innerHTML=`<div class="olabel">Context brief</div>`+list(data.researcher.brief)+`<div class="olabel" style="margin-top:12px"><span class="stat-line">${isLive?data.totalDuration+'s total':fmtMs(data.researcher.ms)}</span></div>`;document.getElementById('c1').textContent=fmt$(data.researcher.cost);},ho:'h1'},{id:'s2',wait:t(data.analyst.ms),render:()=>{const a=data.analyst;document.getElementById('s2-body').innerHTML=`<div class="olabel">In scope</div>`+list(a.inScope)+`<div class="olabel">Out of scope</div>`+list(a.outScope)+`<div class="olabel">Edge cases</div>`+list(a.edges)+`<div class="olabel">Dependencies</div>`+list(a.deps)+`<div class="olabel">Assumptions — flagged, not invented</div>`+list(a.assumptions,'assume');document.getElementById('c2').textContent=fmt$(a.cost);},ho:'h2'},{id:'s3',wait:t(data.writer.ms),render:()=>{const w=data.writer;const wh=(data.warnings&&data.warnings.length)?`<div class="selfcheck" style="background:var(--gate-tint);color:var(--gate)">⚠ Warnings: ${data.warnings.join('; ')}</div>`:`<div class="selfcheck">✓ self-check passed</div>`;document.getElementById('s3-body').innerHTML=`<div class="olabel">Ticket summary</div><div class="ticket-title">${w.title}</div><div class="olabel">User story</div><div class="story-txt">${w.story}</div><div class="olabel">Acceptance criteria</div>`+w.acs.map(a=>{const ace=a.id.indexOf('ACE')===0;return`<div class="ac${ace?' ace':''}"><div class="ac-name">${a.id}- ${a.name}</div><b>GIVEN</b> ${a.given}<br><b>WHEN</b> ${a.when}<br><b>THEN</b><br>${a.thens.map(x=>'&bull; '+x).join('<br>')}</div>`;}).join('')+wh+`<div class="olabel" style="margin-top:12px"><span class="stat-line">${isLive?data.totalDuration+'s · live crew':w.carried}</span></div>`;document.getElementById('c3').textContent=fmt$(w.cost);const tot=data.researcher.cost+data.analyst.cost+data.writer.cost;document.getElementById('ct').textContent=fmt$(tot)+' · '+(isLive?data.totalDuration+'s':fmtMs(data.researcher.ms+data.analyst.ms+data.writer.ms));},ho:'h3'},{id:'sg',wait:t(300),render:()=>{const w=data.writer;const plain=w.title+"\n\n"+w.story+"\n\n"+w.acs.map(a=>a.id+"- "+a.name+"\nGIVEN "+a.given+"\nWHEN "+a.when+"\nTHEN:\n"+a.thens.map(x=>"• "+x).join("\n")).join("\n\n");document.getElementById('sg-body').innerHTML=`<p style="font-size:13.5px;color:var(--mut)">Nothing is committed without you.</p><div class="gate-actions"><button class="gbtn approve" onclick="decide('accepted')">Approve as-is</button><button class="gbtn edit" onclick="openEdit()">Edit before commit</button></div><textarea class="editbox" id="editbox" style="display:none">${plain}</textarea><div class="gate-actions" id="saveRow" style="display:none"><button class="gbtn approve" onclick="decide('edited')">Save edits</button></div><div class="decision" id="decision"></div><p class="sim-note">${isLive?'Connected to live crew on Railway.':'Demo mode — canned data.'}</p>`;}}];let cursor=0;function step(){const s=seq[cursor];const el=document.getElementById(s.id);el.classList.add('active');document.getElementById(s.id+'-st').textContent=s.id==='sg'?'awaiting you':'working';document.getElementById(s.id+'-st').className='status working';setTimeout(()=>{el.classList.remove('active');el.classList.add('done');document.getElementById(s.id+'-st').className='status';document.getElementById(s.id+'-st').textContent=s.id==='sg'?'awaiting you':'done';s.render();if(s.id==='sg'){el.classList.add('active');window._pendingAsk=ask;return;}document.getElementById(s.ho).classList.add('shown');document.getElementById(s.ho).querySelector('.ho-track').classList.add('travel');cursor++;setTimeout(step,reduced?0:850);},s.wait);}step();}
+function openEdit(){document.getElementById('editbox').style.display='block';document.getElementById('saveRow').style.display='flex';document.getElementById('editbox').focus();}
+function decide(kind){const d=document.getElementById('decision');document.getElementById('sg').classList.remove('active');document.getElementById('sg-st').textContent='done';document.getElementById('editbox').style.display='none';document.getElementById('saveRow').style.display='none';document.querySelectorAll('#sg .gate-actions .gbtn').forEach(b=>b.disabled=true);if(kind==='accepted'){accepted++;d.className='decision accepted';d.textContent='✓ Approved — logged as ACCEPTED.';}else{edited++;d.className='decision edited';d.textContent='✎ Committed with edits — logged as EDITED.';}document.getElementById('nAcc').textContent=accepted;document.getElementById('nEdt').textContent=edited;const log=document.getElementById('runlog');const empty=log.querySelector('.empty');if(empty)empty.remove();const li=document.createElement('li');li.innerHTML=`<span class="tag ${kind==='accepted'?'acc':'edt'}">${kind.toUpperCase()}</span><span class="q">${window._pendingAsk||''}</span>`;log.prepend(li);running=false;document.getElementById('run').disabled=false;}
 </script>
 </body>
 </html>
